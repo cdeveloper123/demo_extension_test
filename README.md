@@ -21,4 +21,6 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 Builds the app for production to the `build` folder.
 
-Please create a .env file in the root directory.
+Please create a .env file in the root directory. With the following variables.
+REACT_APP_GOOGLE_API_KEY
+REACT_APP_URL
