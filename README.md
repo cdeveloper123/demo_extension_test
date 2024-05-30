@@ -1,3 +1,5 @@
+It is a straightforward chrome exxtension that enables customers to append the map links to the table.
+
 In the project directory, you can run:
 
 ### `npm start`
