@@ -11,7 +11,6 @@ const TableManipulation: React.FC<TableManipulationProps> = ({ mapUrls }) => {
 
     if (tableHeadRow) {
       if (!tableHeadRow.querySelector('.new-field-th')) {
-        console.log('Table head found. Adding new field...');
 
         const newTh = document.createElement('th');
         newTh.className = 'tlant-table-cell new-field-th';
@@ -26,7 +25,6 @@ const TableManipulation: React.FC<TableManipulationProps> = ({ mapUrls }) => {
 
         tableHeadRow.appendChild(newTh);
 
-        console.log('New field added successfully.');
       } else {
         console.log('New field already exists.');
       }

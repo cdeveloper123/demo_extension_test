@@ -8,10 +8,8 @@ interface LocationServiceProps {
 const LocationService: React.FC<LocationServiceProps> = ({ onLocationDataProcessed }) => {
   const sendLoadLocations = useCallback(async (loadLocationsArray: string[][]) => {
     const baseUrl = process.env.REACT_APP_URL;
-    console.log('---------------baseUrl--------------', baseUrl);
 
     const accessToken = process.env.REACT_APP_GOOGLE_API_KEY;
-    console.log('---------------accessToken--------------', accessToken);
 
     const fields = 'places.displayName,places.location';
 
@@ -19,11 +17,9 @@ const LocationService: React.FC<LocationServiceProps> = ({ onLocationDataProcess
 
     try {
       for (const locationsPair of loadLocationsArray) {
-    console.log('---------------locationsPair--------------', locationsPair);
 
         const locationsDataPair: any[] = [];
         for (const location of locationsPair) {
-    console.log('---------------${baseUrl}--------------', `Bearer ${accessToken}`);
 
           const response = await fetch(`${baseUrl}?fields=${fields}`, {
             method: 'POST',
@@ -37,19 +33,16 @@ const LocationService: React.FC<LocationServiceProps> = ({ onLocationDataProcess
             body: JSON.stringify({ textQuery: location }),
           });
 
-          console.log('---------------response--------------', response);
 
           if (!response.ok) {
             throw new Error(`Failed to fetch: ${response.statusText}`);
           }
 
           const data = await response.json();
-          console.log('Response data:', data);
           locationsDataPair.push(data);
         }
         allLocationData.push(locationsDataPair);
       }
-      console.log('All Location Data:', allLocationData);
       return allLocationData;
     } catch (error) {
       console.error('Error sending load locations:', error);
@@ -82,24 +75,19 @@ const LocationService: React.FC<LocationServiceProps> = ({ onLocationDataProcess
   useEffect(() => {
     const xpath = '(//tbody)[1]//a';
     waitForElements(xpath, (elements: HTMLElement[]) => {
-      console.log(elements);
 
       const loadLocationsArray: string[][] = [];
 
       if (elements.length > 0) {
         elements.forEach((element: HTMLElement) => {
-          console.log('---------------element--------------', element);
 
           if (element instanceof HTMLElement) {
             const loadLocations = element.querySelectorAll('.index-module-loadLocation-pmPrI');
-            console.log('-------------------loadLocations---------------------');
-            console.log(loadLocations);
 
             const locationsPair: string[] = [];
 
             loadLocations.forEach((loadLocation) => {
               if (loadLocation instanceof HTMLElement) {
-                console.log(loadLocation.innerText);
                 locationsPair.push(loadLocation.innerText);
               }
             });
@@ -108,14 +96,10 @@ const LocationService: React.FC<LocationServiceProps> = ({ onLocationDataProcess
           }
         });
 
-        console.log('Load Locations Array:', loadLocationsArray);
-
         sendLoadLocations(loadLocationsArray).then(locationData => {
-          console.log('Fetched Location Data:', locationData);
           if (locationData) {
             const processedLocationData = processLocationData(locationData);
             const mapUrls = generateMapUrl(processedLocationData);
-            console.log('Map Urls:', mapUrls);
 
             onLocationDataProcessed(mapUrls);
           }

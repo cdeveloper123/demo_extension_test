@@ -27,17 +27,9 @@ const messagesFromReactAppListener = (
   }
 };
 
-// const main = () => {
-//   console.log("[content.ts] Main");
-
-  // chrome.runtime.onMessage.addListener(messagesFromReactAppListener);
 
   window.addEventListener("load", () => {
     console.log("Content script works!");
-    console.log("Must reload extension for modifications to take effect.");
     // ContentScript.initialize();
     initializeContentScript()
   });
-// };
-
-// main();
