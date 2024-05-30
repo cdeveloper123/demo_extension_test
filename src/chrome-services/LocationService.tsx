@@ -7,17 +7,25 @@ interface LocationServiceProps {
 
 const LocationService: React.FC<LocationServiceProps> = ({ onLocationDataProcessed }) => {
   const sendLoadLocations = useCallback(async (loadLocationsArray: string[][]) => {
-    const url = process.env.REACT_APP_URL;
+    const baseUrl = process.env.REACT_APP_URL;
+    console.log('---------------baseUrl--------------', baseUrl);
+
     const accessToken = process.env.REACT_APP_GOOGLE_API_KEY;
+    console.log('---------------accessToken--------------', accessToken);
+
     const fields = 'places.displayName,places.location';
 
     const allLocationData: any[] = [];
 
     try {
       for (const locationsPair of loadLocationsArray) {
+    console.log('---------------locationsPair--------------', locationsPair);
+
         const locationsDataPair: any[] = [];
         for (const location of locationsPair) {
-          const response = await fetch(`${url}?fields=${fields}`, {
+    console.log('---------------${baseUrl}--------------', `Bearer ${accessToken}`);
+
+          const response = await fetch(`${baseUrl}?fields=${fields}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -28,6 +36,8 @@ const LocationService: React.FC<LocationServiceProps> = ({ onLocationDataProcess
             },
             body: JSON.stringify({ textQuery: location }),
           });
+
+          console.log('---------------response--------------', response);
 
           if (!response.ok) {
             throw new Error(`Failed to fetch: ${response.statusText}`);
